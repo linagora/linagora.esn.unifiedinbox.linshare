@@ -6,6 +6,7 @@
 
   function inboxLinshareAttachmentProvider(
     $q,
+    esnLinshareApiClient,
     DEFAULT_FILE_TYPE,
     INBOX_LINSHARE_ATTACHMENT_TYPE
   ) {
@@ -18,10 +19,26 @@
     };
 
     function upload(attachment) {
-      // TODO implement the Linshare uploader
+      var deferred = $q.defer();
+      var file = attachment.getFile();
+
+      var uploadPromise = esnLinshareApiClient.createDocument({
+        file: file,
+        fileSize: file.size
+      }, {
+        onUploadProgress: function(progressEvent) {
+          deferred.notify(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+        }
+      });
+
+      uploadPromise.then(function(resp) {
+        attachment.uuid = resp.uuid;
+        deferred.resolve();
+      }, deferred.reject);
+
       return {
-        cancel: angular.noop,
-        promise: $q.resolve()
+        cancel: uploadPromise.cancel,
+        promise: deferred.promise
       };
     }
 
@@ -31,6 +48,7 @@
         name: file.name,
         size: file.size,
         type: file.type || DEFAULT_FILE_TYPE,
+        isInline: false,
         getFile: function() {
           return file;
         }
