@@ -6,7 +6,8 @@
 
   function inboxLinshareAttachmentProvider(
     $q,
-    esnLinshareApiClient,
+    fileUploadService,
+    linshareFileUpload,
     DEFAULT_FILE_TYPE,
     INBOX_LINSHARE_ATTACHMENT_TYPE
   ) {
@@ -20,24 +21,20 @@
 
     function upload(attachment) {
       var deferred = $q.defer();
-      var file = attachment.getFile();
+      var uploader = fileUploadService.get(linshareFileUpload);
+      var uploadTask = uploader.addFile(attachment.getFile());
 
-      var uploadPromise = esnLinshareApiClient.createDocument({
-        file: file,
-        fileSize: file.size
-      }, {
-        onUploadProgress: function(progressEvent) {
-          deferred.notify(Math.round((progressEvent.loaded * 100) / progressEvent.total));
-        }
+      uploadTask.defer.promise.then(function(task) {
+        attachment.uuid = task.response.uuid;
+        deferred.resolve();
+      }, deferred.reject, function(uploadTask) {
+        deferred.notify(uploadTask.progress);
       });
 
-      uploadPromise.then(function(resp) {
-        attachment.uuid = resp.uuid;
-        deferred.resolve();
-      }, deferred.reject);
+      uploader.start();
 
       return {
-        cancel: uploadPromise.cancel,
+        cancel: uploadTask.cancel,
         promise: deferred.promise
       };
     }

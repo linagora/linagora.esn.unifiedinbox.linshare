@@ -20,13 +20,22 @@ describe('The inboxLinshareAttachmentProvider service', function() {
   }));
 
   describe('The upload fn', function() {
-    var esnLinshareApiClient;
+    var fileUploadService;
+    var uploaderMock;
 
-    beforeEach(inject(function(_esnLinshareApiClient_) {
-      esnLinshareApiClient = _esnLinshareApiClient_;
+    beforeEach(inject(function(_fileUploadService_) {
+      fileUploadService = _fileUploadService_;
+
+      uploaderMock = {
+        addFile: sinon.stub(),
+        start: sinon.spy()
+      };
+      fileUploadService.get = function() {
+        return uploaderMock;
+      };
     }));
 
-    it('should call Linshare API to upload file', function() {
+    it('should use fileUploadService to upload file', function() {
       var file = { name: 'Learn_JS_in_6_hours.pdf', size: 12345 };
       var attachment = {
         getFile: function() {
@@ -34,16 +43,14 @@ describe('The inboxLinshareAttachmentProvider service', function() {
         }
       };
 
-      esnLinshareApiClient.createDocument = sinon.stub().returns($q.when({}));
-      inboxLinshareAttachmentProvider.upload(attachment);
-      $rootScope.$digest();
+      uploaderMock.addFile.returns({
+        defer: $q.defer()
+      });
 
-      expect(esnLinshareApiClient.createDocument).to.have.been.calledWith({
-        file: file,
-        fileSize: file.size
-      }, sinon.match({
-        onUploadProgress: sinon.match.func
-      }));
+      inboxLinshareAttachmentProvider.upload(attachment);
+
+      expect(uploaderMock.addFile).to.have.been.calledWith(file);
+      expect(uploaderMock.start).to.have.been.calledWith();
     });
 
     it('should assign document UUID to the attachment object on success', function() {
@@ -54,9 +61,13 @@ describe('The inboxLinshareAttachmentProvider service', function() {
         }
       };
       var document = { uuid: '1212' };
+      var defer = $q.defer();
 
-      esnLinshareApiClient.createDocument = sinon.stub().returns($q.when(document));
+      uploaderMock.addFile.returns({ defer: defer });
+
       inboxLinshareAttachmentProvider.upload(attachment);
+      defer.resolve({ response: document });
+
       $rootScope.$digest();
 
       expect(attachment.uuid).to.equal(document.uuid);
@@ -70,13 +81,14 @@ describe('The inboxLinshareAttachmentProvider service', function() {
         }
       };
       var document = { uuid: '1212' };
+      var defer = $q.defer();
       var successSpy = sinon.spy();
 
-      esnLinshareApiClient.createDocument = sinon.stub().returns($q.when(document));
+      uploaderMock.addFile.returns({ defer: defer });
 
-      var uploadTask = inboxLinshareAttachmentProvider.upload(attachment);
+      inboxLinshareAttachmentProvider.upload(attachment).promise.then(successSpy);
+      defer.resolve({ response: document });
 
-      uploadTask.promise.then(successSpy);
       $rootScope.$digest();
 
       expect(successSpy).to.have.been.calledWith();
@@ -89,14 +101,15 @@ describe('The inboxLinshareAttachmentProvider service', function() {
           return file;
         }
       };
+      var defer = $q.defer();
       var catchSpy = sinon.spy();
       var error = new Error('an_error');
 
-      esnLinshareApiClient.createDocument = sinon.stub().returns($q.reject(error));
+      uploaderMock.addFile.returns({ defer: defer });
 
-      var uploadTask = inboxLinshareAttachmentProvider.upload(attachment);
+      inboxLinshareAttachmentProvider.upload(attachment).promise.then(null, catchSpy);
+      defer.reject(error);
 
-      uploadTask.promise.catch(catchSpy);
       $rootScope.$digest();
 
       expect(catchSpy).to.have.been.calledWith(error);
@@ -109,24 +122,18 @@ describe('The inboxLinshareAttachmentProvider service', function() {
           return file;
         }
       };
+      var defer = $q.defer();
       var notifySpy = sinon.spy();
-      var onUploadProgress;
 
-      esnLinshareApiClient.createDocument = function(data, options) {
-        onUploadProgress = options.onUploadProgress;
+      uploaderMock.addFile.returns({ defer: defer });
 
-        return $q.defer().promise;
-      };
+      inboxLinshareAttachmentProvider.upload(attachment).promise.then(null, null, notifySpy);
 
-      var uploadTask = inboxLinshareAttachmentProvider.upload(attachment);
-
-      uploadTask.promise.then(null, null, notifySpy);
-
-      onUploadProgress({ loaded: 7, total: 10 });
+      defer.notify({ progress: 70 });
       $rootScope.$digest();
       expect(notifySpy).to.have.been.calledWith(70);
 
-      onUploadProgress({ loaded: 8, total: 10 });
+      defer.notify({ progress: 80 });
       $rootScope.$digest();
       expect(notifySpy).to.have.been.calledWith(80);
     });
@@ -138,17 +145,13 @@ describe('The inboxLinshareAttachmentProvider service', function() {
           return file;
         }
       };
-      var document = { uuid: '1212' };
-      var promise = $q.when(document);
+      var cancelSpy = sinon.spy();
 
-      promise.cancel = sinon.spy();
-      esnLinshareApiClient.createDocument = sinon.stub().returns(promise);
+      uploaderMock.addFile.returns({ defer: $q.defer(), cancel: cancelSpy });
 
-      var uploadTask = inboxLinshareAttachmentProvider.upload(attachment);
+      inboxLinshareAttachmentProvider.upload(attachment).cancel();
 
-      uploadTask.cancel();
-
-      expect(promise.cancel).to.have.been.calledWith();
+      expect(cancelSpy).to.have.been.calledWith();
     });
   });
 
