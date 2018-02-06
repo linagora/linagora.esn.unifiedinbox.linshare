@@ -5,12 +5,12 @@
     .run(run);
 
   function run(
-    inboxAttachmentRegistry,
+    inboxAttachmentProviderRegistry,
     inboxLinshareAttachmentProvider,
     inboxLinshareSharingHook,
     inboxEmailSendingHookService
   ) {
-    inboxAttachmentRegistry.add(inboxLinshareAttachmentProvider);
+    inboxAttachmentProviderRegistry.add(inboxLinshareAttachmentProvider);
     inboxEmailSendingHookService.registerPreSendingHook(inboxLinshareSharingHook);
   }
 })(angular);
