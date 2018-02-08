@@ -14,7 +14,7 @@
     return {
       name: 'Linshare',
       type: INBOX_LINSHARE_ATTACHMENT_TYPE,
-      icon: 'mdi mdi-cloud',
+      icon: 'linshare-icon linshare-desktop-icon',
       upload: upload,
       fileToAttachment: fileToAttachment
     };
