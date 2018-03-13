@@ -12,10 +12,10 @@
     dynamicDirectiveService
   ) {
     var ddDesktop = new dynamicDirectiveService.DynamicDirective(function() { return true; }, 'inbox-linshare-composer-select-attachment', {
-      attributes: [{ name: 'email', value: 'email' }]
+      attributes: [{ name: 'email', value: '$ctrl.message' }]
     });
     var ddMobile = new dynamicDirectiveService.DynamicDirective(function() { return true; }, 'inbox-linshare-composer-select-attachment', {
-      attributes: [{ name: 'email', value: 'email' }, { name: 'is-mobile', value: 'true' }]
+      attributes: [{ name: 'email', value: '$ctrl.message' }, { name: 'is-mobile', value: 'true' }]
     });
 
     dynamicDirectiveService.addInjection('inboxComposerExtraButtons', ddDesktop);
