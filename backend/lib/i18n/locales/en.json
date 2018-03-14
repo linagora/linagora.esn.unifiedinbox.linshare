@@ -1,6 +1,8 @@
 {
-  "Insert files from Linshare": "Insert files from Linshare",
+  "Insert files from LinShare": "Insert files from LinShare",
   "Insert": "Insert",
   "Cancel": "Cancel",
-  "Close": "Close"
+  "Close": "Close",
+  "This email contains %s LinShare attachments.": "This email contains %s LinShare attachments.",
+  "This email contains a LinShare attachment.": "This email contains a LinShare attachment."
 }

@@ -1,6 +1,8 @@
 {
-  "Insert files from Linshare": "Insérer des fichiers avec Linshare",
+  "Insert files from LinShare": "Insérer des fichiers avec LinShare",
   "Insert": "Insérer",
   "Cancel": "Annuler",
-  "Close": "Ferner"
+  "Close": "Ferner",
+  "This email contains %s LinShare attachments.": "Cet email contient %s pièces jointes stockées dans LinShare.",
+  "This email contains a LinShare attachment.": "Cet email contient une pièce jointe stockée dans LinShare."
 }
