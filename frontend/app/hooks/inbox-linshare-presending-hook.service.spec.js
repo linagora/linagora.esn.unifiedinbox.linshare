@@ -9,18 +9,24 @@ describe('The inboxLinsharePresendingHook service', function() {
   var $q, $rootScope;
   var esnLinshareApiClient, emailSendingService, inboxLinsharePresendingHook;
   var linshareAttachment, jmapAttachment;
-  var INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE;
+  var INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES;
 
   beforeEach(module('linagora.esn.unifiedinbox.linshare'));
 
-  beforeEach(inject(function(_$q_, _$rootScope_, _emailSendingService_, _esnLinshareApiClient_, _inboxLinsharePresendingHook_,
-                             _INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_) {
+  beforeEach(inject(function(
+    _$q_,
+    _$rootScope_,
+    _emailSendingService_,
+    _esnLinshareApiClient_,
+    _inboxLinsharePresendingHook_,
+    _INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES_
+  ) {
     $q = _$q_;
     $rootScope = _$rootScope_;
     inboxLinsharePresendingHook = _inboxLinsharePresendingHook_;
     esnLinshareApiClient = _esnLinshareApiClient_;
     emailSendingService = _emailSendingService_;
-    INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE = _INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_;
+    INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES = _INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES_;
 
     linshareAttachment = {
       uuid: '123',
@@ -121,25 +127,47 @@ describe('The inboxLinsharePresendingHook service', function() {
     expect(email.attachments).to.deep.equal([jmapAttachment]);
   });
 
-    it('should append notify message if the email contains Linshare attachment', function() {
-      var email = {
-        attachments: [linshareAttachment, linshareAttachment],
-        htmlBody: '<p>email content</p>',
-        textBody: 'email content'
-      };
+  it('should append notify message if the email contains Linshare attachment', function() {
+    var email = {
+      attachments: [linshareAttachment, linshareAttachment],
+      htmlBody: '<p>email content</p>',
+      textBody: 'email content'
+    };
 
-      emailSendingService.getAllRecipientsExceptSender = function() {
-        return [{
-          email: 'user1@open-paas.org'
-        }];
-      };
+    emailSendingService.getAllRecipientsExceptSender = function() {
+      return [{
+        email: 'user1@open-paas.org'
+      }];
+    };
 
-      inboxLinsharePresendingHook(email);
-      $rootScope.$digest();
+    inboxLinsharePresendingHook(email);
+    $rootScope.$digest();
 
-      expect(email.htmlBody).to.contain('This email contains 2 Linshare attachment(s).');
-      expect(email.textBody).to.contain('This email contains 2 Linshare attachment(s).');
-    });
+    expect(email.htmlBody).to.contain(INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES.plural);
+    expect(email.textBody).to.contain(INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES.plural);
+  });
+
+  it('should append notify message even email does not have body', function() {
+    var email = {
+      attachments: [linshareAttachment]
+    };
+
+    emailSendingService.getAllRecipientsExceptSender = function() {
+      return [{
+        email: 'user1@open-paas.org'
+      }];
+    };
+
+    inboxLinsharePresendingHook(email);
+    $rootScope.$digest();
+
+    expect(email.htmlBody).to.equal('<br />' +
+      '<p style="font-family: Roboto; font-size: 12px; color: rgba(0,0,0,0.65); text-align: center">' +
+        '<i>' + INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES.singular + '</i>' +
+      '</p>');
+    expect(email.textBody).to.equal('\n\n-----------------------------------\n' +
+      INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES.singular);
+  });
 
   it('should not append notify message if the email does not contain Linshare attachment', function() {
     var email = {
@@ -157,7 +185,9 @@ describe('The inboxLinsharePresendingHook service', function() {
     inboxLinsharePresendingHook(email);
     $rootScope.$digest();
 
-    expect(email.htmlBody).not.to.contain('Linshare attachment(s).');
-    expect(email.textBody).not.to.contain('Linshare attachment(s).');
+    expect(email.htmlBody).not.to.contain(INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES.plural);
+    expect(email.textBody).not.to.contain(INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES.plural);
+    expect(email.htmlBody).not.to.contain(INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES.singular);
+    expect(email.textBody).not.to.contain(INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES.singular);
   });
 });

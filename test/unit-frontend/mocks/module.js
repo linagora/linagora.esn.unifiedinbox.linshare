@@ -21,3 +21,13 @@ angular.module('linagora.esn.linshare', [])
 angular.module('esn.core', []);
 angular.module('esn.lodash-wrapper', [])
   .constant('_', _);
+angular.module('esn.i18n', [])
+  .factory('esnI18nService', function() {
+    return {
+      translate: function(input) {
+        return {
+          toString: function() { return input; }
+        };
+      }
+    };
+  });

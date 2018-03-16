@@ -1,6 +1,8 @@
 {
-  "Insert files from Linshare": "Chèn tệp từ Linshare",
+  "Insert files from LinShare": "Chèn tệp từ LinShare",
   "Insert": "Chèn",
   "Cancel": "Hủy",
-  "Close": "Đóng"
+  "Close": "Đóng",
+  "This email contains %s LinShare attachments.": "Thư này có chứa %s tệp đính kèm từ LinShare.",
+  "This email contains a LinShare attachment.": "Thư này có chứa 1 tệp đính kèm từ LinShare."
 }
