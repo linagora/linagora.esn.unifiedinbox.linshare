@@ -2,7 +2,8 @@
   'use strict';
 
   angular.module('linagora.esn.unifiedinbox.linshare')
-    .run(run);
+    .run(run)
+    .run(injectAttachmentSaveAction);
 
   function run(
     inboxAttachmentProviderRegistry,
@@ -22,5 +23,14 @@
     dynamicDirectiveService.addInjection('inboxMobileComposerExtraButtons', ddMobile);
     inboxAttachmentProviderRegistry.add(inboxLinshareAttachmentProvider);
     inboxEmailSendingHookService.registerPreSendingHook(inboxLinsharePresendingHook);
+  }
+
+  function injectAttachmentSaveAction(dynamicDirectiveService) {
+    var saveAction = new dynamicDirectiveService.DynamicDirective(true, 'inbox-linshare-attachment-save-action', {
+      attributes: [{ name: 'attachment', value: 'attachment' }],
+      priority: -10
+    });
+
+    dynamicDirectiveService.addInjection('attachments-action-list', saveAction);
   }
 })(angular);

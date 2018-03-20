@@ -4,5 +4,16 @@
   "Cancel": "Cancel",
   "Close": "Close",
   "This email contains %s LinShare attachments.": "This email contains %s LinShare attachments.",
-  "This email contains a LinShare attachment.": "This email contains a LinShare attachment."
+  "This email contains a LinShare attachment.": "This email contains a LinShare attachment.",
+  "Checking...": "Checking...",
+  "Checking availability of this attachment on Linshare": "Checking availability of this attachment on Linshare",
+  "This attachment is being saved to Linshare": "This attachment is being saved to Linshare",
+  "This attachment is saved to Linshare": "This attachment is saved to Linshare",
+  "Save": "Save",
+  "Saved": "Saved",
+  "Saving...": "Saving...",
+  "Save this attachment to Linshare": "Save this attachment to Linshare",
+  "Saving attachment to Linshare...": "Saving attachment to Linshare...",
+  "Saved attachment to Linshare": "Saved attachment to Linshare",
+  "Failed to save attachment to Linshare": "Failed to save attachment to Linshare"
 }

@@ -4,5 +4,16 @@
   "Cancel": "Hủy",
   "Close": "Đóng",
   "This email contains %s LinShare attachments.": "Thư này có chứa %s tệp đính kèm từ LinShare.",
-  "This email contains a LinShare attachment.": "Thư này có chứa 1 tệp đính kèm từ LinShare."
+  "Checking...": "Checking...",
+  "This email contains a LinShare attachment.": "Thư này có chứa 1 tệp đính kèm từ LinShare.",
+  "Checking availability of this attachment on Linshare": "Đang kiểm tra sự sẵn có của tệp đính kèm này trên Linshare",
+  "This attachment is being saved to Linshare": "Tệp đính kèm này đang được lưu vào Linshare",
+  "This attachment is saved to Linshare": "Tệp đính kèm này đã được lưu vào Linshare",
+  "Save": "Lưu",
+  "Saved": "Đã lưu",
+  "Saving...": "Đang lưu...",
+  "Save this attachment to Linshare": "Lưu tệp đính kèm này vào Linshare",
+  "Saving attachment to Linshare...": "Đang lưu tệp đính kèm vào Linshare...",
+  "Saved attachment to Linshare": "Đã lưu tệp đính kèm vào Linshare",
+  "Failed to save attachment to Linshare": "Lưu tệp đính kèm vào Linshare thất bại"
 }

@@ -2,6 +2,10 @@
   'use strict';
 
   angular.module('linagora.esn.unifiedinbox.linshare', [
+    'restangular',
+    'esn.async-action',
+    'esn.http',
+    'esn.background',
     'esn.core',
     'esn.file',
     'esn.i18n',
