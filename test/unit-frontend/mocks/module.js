@@ -12,7 +12,7 @@ angular.module('linagora.esn.unifiedinbox', [])
     return {};
   });
 angular.module('linagora.esn.linshare', [])
-  .factory('esnLinshareApiClient', function() {
+  .factory('linshareApiClient', function() {
     return {};
   })
   .factory('linshareFileUpload', function() {

@@ -9,7 +9,7 @@
     $log,
     $interval,
     inBackground,
-    esnLinshareApiClient,
+    linshareApiClient,
     inboxLinshareApiClient,
     INBOX_LINSHARE_ATTACHMENT_POLLING_INTERVAL
   ) {
@@ -31,13 +31,13 @@
     function saveAttachmentToLinshare(attachment) {
       var promise = attachment.getSignedDownloadUrl()
         .then(function(url) {
-          return esnLinshareApiClient.createDocumentFromUrl({
+          return linshareApiClient.createDocumentFromUrl({
             url: url,
             fileName: attachment.name
           }, { async: true });
         })
         .then(function(asyncTask) {
-          if (asyncTask.status === esnLinshareApiClient.ASYNC_TASK_STATUS.FAILED) {
+          if (asyncTask.status === linshareApiClient.ASYNC_TASK_STATUS.FAILED) {
             return $q.reject(new Error('Cannot save attachment to LinShare'));
           }
 
@@ -46,7 +46,7 @@
             asyncTaskId: asyncTask.async.uuid
           };
 
-          if (asyncTask.status === esnLinshareApiClient.ASYNC_TASK_STATUS.SUCCESS) {
+          if (asyncTask.status === linshareApiClient.ASYNC_TASK_STATUS.SUCCESS) {
             attachmentMapping.documentId = asyncTask.uuid;
           }
 
@@ -74,9 +74,9 @@
 
         inProgress = true;
 
-        esnLinshareApiClient.getDocumentAsyncTaskById(attachmentMapping.asyncTaskId)
+        linshareApiClient.getDocumentAsyncTaskById(attachmentMapping.asyncTaskId)
           .then(function(asyncTask) {
-            if (asyncTask.status === esnLinshareApiClient.ASYNC_TASK_STATUS.SUCCESS) {
+            if (asyncTask.status === linshareApiClient.ASYNC_TASK_STATUS.SUCCESS) {
               return inboxLinshareApiClient.updateAttachment(attachmentMapping.id, {
                   documentId: asyncTask.uuid
                 })
@@ -85,7 +85,7 @@
                 });
             }
 
-            if (asyncTask.status === esnLinshareApiClient.ASYNC_TASK_STATUS.FAILED) {
+            if (asyncTask.status === linshareApiClient.ASYNC_TASK_STATUS.FAILED) {
               done(new Error('Failed to save attachment to LinShare'));
             }
           })

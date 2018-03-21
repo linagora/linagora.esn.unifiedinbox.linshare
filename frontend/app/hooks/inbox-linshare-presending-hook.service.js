@@ -8,7 +8,7 @@
     $q,
     _,
     esnI18nService,
-    esnLinshareApiClient,
+    linshareApiClient,
     emailSendingService,
     INBOX_LINSHARE_ATTACHMENT_TYPE,
     INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES
@@ -38,7 +38,7 @@
         '</p>';
       var textMessage = '\n\n-----------------------------------\n' + message;
 
-      return esnLinshareApiClient.shareDocuments({
+      return linshareApiClient.shareDocuments({
         documents: documents,
         recipients: recipients
       }).then(function() {
