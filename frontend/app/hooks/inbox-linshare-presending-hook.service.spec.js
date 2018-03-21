@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 describe('The inboxLinsharePresendingHook service', function() {
   var $q, $rootScope;
-  var esnLinshareApiClient, emailSendingService, inboxLinsharePresendingHook;
+  var linshareApiClient, emailSendingService, inboxLinsharePresendingHook;
   var linshareAttachment, jmapAttachment;
   var INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES;
 
@@ -17,14 +17,14 @@ describe('The inboxLinsharePresendingHook service', function() {
     _$q_,
     _$rootScope_,
     _emailSendingService_,
-    _esnLinshareApiClient_,
+    _linshareApiClient_,
     _inboxLinsharePresendingHook_,
     _INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES_
   ) {
     $q = _$q_;
     $rootScope = _$rootScope_;
     inboxLinsharePresendingHook = _inboxLinsharePresendingHook_;
-    esnLinshareApiClient = _esnLinshareApiClient_;
+    linshareApiClient = _linshareApiClient_;
     emailSendingService = _emailSendingService_;
     INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES = _INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES_;
 
@@ -39,7 +39,7 @@ describe('The inboxLinsharePresendingHook service', function() {
       attachmentType: 'jmap'
     };
 
-    esnLinshareApiClient.shareDocuments = sinon.spy(function() {
+    linshareApiClient.shareDocuments = sinon.spy(function() {
       return $q.when();
     });
   }));
@@ -56,7 +56,7 @@ describe('The inboxLinsharePresendingHook service', function() {
     };
 
     inboxLinsharePresendingHook(email);
-    expect(esnLinshareApiClient.shareDocuments).to.have.been.calledWith({
+    expect(linshareApiClient.shareDocuments).to.have.been.calledWith({
       documents: [linshareAttachment.uuid],
       recipients: [{ mail: 'user1@open-paas.org' }]
     });
@@ -74,7 +74,7 @@ describe('The inboxLinsharePresendingHook service', function() {
     };
 
     inboxLinsharePresendingHook(email);
-    expect(esnLinshareApiClient.shareDocuments).not.to.have.been.called;
+    expect(linshareApiClient.shareDocuments).not.to.have.been.called;
   });
 
   it('should not call the LinShare API if there is no recipient', function() {
@@ -87,7 +87,7 @@ describe('The inboxLinsharePresendingHook service', function() {
     };
 
     inboxLinsharePresendingHook(email);
-    expect(esnLinshareApiClient.shareDocuments).not.to.have.been.called;
+    expect(linshareApiClient.shareDocuments).not.to.have.been.called;
   });
 
   it('should not call the LinShare API with attachments that do not have uuid', function() {
@@ -106,7 +106,7 @@ describe('The inboxLinsharePresendingHook service', function() {
     };
 
     inboxLinsharePresendingHook(email);
-    expect(esnLinshareApiClient.shareDocuments).to.have.been.calledWith({
+    expect(linshareApiClient.shareDocuments).to.have.been.calledWith({
       documents: [linshareAttachment.uuid],
       recipients: [{ mail: 'user1@open-paas.org' }]
     });

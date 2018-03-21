@@ -7,24 +7,24 @@ var expect = chai.expect;
 
 describe('The inboxLinshareAttachmentSaveActionService service', function() {
   var $rootScope, $q;
-  var esnLinshareApiClient, inboxLinshareApiClient, inboxLinshareAttachmentSaveActionService;
+  var linshareApiClient, inboxLinshareApiClient, inboxLinshareAttachmentSaveActionService;
 
   beforeEach(module('linagora.esn.unifiedinbox.linshare'));
 
   beforeEach(inject(function(
     _$rootScope_,
     _$q_,
-    _esnLinshareApiClient_,
+    _linshareApiClient_,
     _inboxLinshareApiClient_,
     _inboxLinshareAttachmentSaveActionService_
   ) {
     $rootScope = _$rootScope_;
     $q = _$q_;
-    esnLinshareApiClient = _esnLinshareApiClient_;
+    linshareApiClient = _linshareApiClient_;
     inboxLinshareApiClient = _inboxLinshareApiClient_;
     inboxLinshareAttachmentSaveActionService = _inboxLinshareAttachmentSaveActionService_;
 
-    esnLinshareApiClient.ASYNC_TASK_STATUS = {
+    linshareApiClient.ASYNC_TASK_STATUS = {
       PENDING: 'PENDING',
       FAILED: 'FAILED',
       SUCCESS: 'SUCCESS'
@@ -69,15 +69,15 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
         getSignedDownloadUrl: sinon.stub().returns($q.when(downloadUrl))
       };
 
-      esnLinshareApiClient.createDocumentFromUrl = sinon.stub().returns($q.when({
-        status: esnLinshareApiClient.ASYNC_TASK_STATUS.FAILED
+      linshareApiClient.createDocumentFromUrl = sinon.stub().returns($q.when({
+        status: linshareApiClient.ASYNC_TASK_STATUS.FAILED
       }));
 
       inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare(attachment);
 
       $rootScope.$digest();
 
-      expect(esnLinshareApiClient.createDocumentFromUrl).to.have.been.calledWith({
+      expect(linshareApiClient.createDocumentFromUrl).to.have.been.calledWith({
         url: downloadUrl,
         fileName: attachment.name
       }, { async: true });
@@ -90,8 +90,8 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
         getSignedDownloadUrl: sinon.stub().returns($q.when(downloadUrl))
       };
 
-      esnLinshareApiClient.createDocumentFromUrl = sinon.stub().returns($q.when({
-        status: esnLinshareApiClient.ASYNC_TASK_STATUS.FAILED
+      linshareApiClient.createDocumentFromUrl = sinon.stub().returns($q.when({
+        status: linshareApiClient.ASYNC_TASK_STATUS.FAILED
       }));
 
       inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare(attachment).catch(function(err) {
@@ -109,11 +109,11 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
         getSignedDownloadUrl: sinon.stub().returns($q.when(downloadUrl))
       };
       var asyncTask = {
-        status: esnLinshareApiClient.ASYNC_TASK_STATUS.PENDING,
+        status: linshareApiClient.ASYNC_TASK_STATUS.PENDING,
         async: { uuid: '123' }
       };
 
-      esnLinshareApiClient.createDocumentFromUrl = sinon.stub().returns($q.when(asyncTask));
+      linshareApiClient.createDocumentFromUrl = sinon.stub().returns($q.when(asyncTask));
       inboxLinshareApiClient.createAttachment = sinon.spy();
 
       inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare(attachment);
@@ -133,11 +133,11 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       };
       var asyncTask = {
         uuid: '468',
-        status: esnLinshareApiClient.ASYNC_TASK_STATUS.SUCCESS,
+        status: linshareApiClient.ASYNC_TASK_STATUS.SUCCESS,
         async: { uuid: '123' }
       };
 
-      esnLinshareApiClient.createDocumentFromUrl = sinon.stub().returns($q.when(asyncTask));
+      linshareApiClient.createDocumentFromUrl = sinon.stub().returns($q.when(asyncTask));
       inboxLinshareApiClient.createAttachment = sinon.spy();
 
       inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare(attachment);
@@ -162,14 +162,14 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
 
     it('should reject when async task is marked as FAILED', function(done) {
       var asyncTask = {
-        status: esnLinshareApiClient.ASYNC_TASK_STATUS.FAILED
+        status: linshareApiClient.ASYNC_TASK_STATUS.FAILED
       };
       var attachmentMapping = {
         asyncTaskId: '123'
       };
       var scope = $rootScope.$new();
 
-      esnLinshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when(asyncTask));
+      linshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when(asyncTask));
 
       inboxLinshareAttachmentSaveActionService.watch(attachmentMapping, scope).catch(function(err) {
         expect(err.message).to.equal('Failed to save attachment to LinShare');
@@ -182,7 +182,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
     it('should update attachment mapping when async task is marked as SUCCESS', function() {
       var asyncTask = {
         uuid: '456',
-        status: esnLinshareApiClient.ASYNC_TASK_STATUS.SUCCESS
+        status: linshareApiClient.ASYNC_TASK_STATUS.SUCCESS
       };
       var attachmentMapping = {
         id: '789',
@@ -190,7 +190,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       };
       var scope = $rootScope.$new();
 
-      esnLinshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when(asyncTask));
+      linshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when(asyncTask));
       inboxLinshareApiClient.updateAttachment = sinon.stub().returns($q.when());
 
       inboxLinshareAttachmentSaveActionService.watch(attachmentMapping, scope);
@@ -208,13 +208,13 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       };
       var scope = $rootScope.$new();
 
-      esnLinshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.defer().promise);
+      linshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.defer().promise);
 
       inboxLinshareAttachmentSaveActionService.watch(attachmentMapping, scope);
       $interval.flush(INBOX_LINSHARE_ATTACHMENT_POLLING_INTERVAL + 1);
       $interval.flush(INBOX_LINSHARE_ATTACHMENT_POLLING_INTERVAL + 1);
 
-      expect(esnLinshareApiClient.getDocumentAsyncTaskById).to.have.been.calledOnce;
+      expect(linshareApiClient.getDocumentAsyncTaskById).to.have.been.calledOnce;
     });
 
     it('should try again when last step is done', function() {
@@ -224,13 +224,13 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       };
       var scope = $rootScope.$new();
 
-      esnLinshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when({}));
+      linshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when({}));
 
       inboxLinshareAttachmentSaveActionService.watch(attachmentMapping, scope);
       $interval.flush(INBOX_LINSHARE_ATTACHMENT_POLLING_INTERVAL + 1);
       $interval.flush(INBOX_LINSHARE_ATTACHMENT_POLLING_INTERVAL + 1);
 
-      expect(esnLinshareApiClient.getDocumentAsyncTaskById).to.have.been.calledTwice;
+      expect(linshareApiClient.getDocumentAsyncTaskById).to.have.been.calledTwice;
     });
 
     it('should stop the poller when scope is destroyed', function() {
@@ -240,7 +240,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       };
       var scope = $rootScope.$new();
 
-      esnLinshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when({}));
+      linshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when({}));
 
       inboxLinshareAttachmentSaveActionService.watch(attachmentMapping, scope);
       $interval.flush(INBOX_LINSHARE_ATTACHMENT_POLLING_INTERVAL + 1);
@@ -249,7 +249,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
 
       $interval.flush(INBOX_LINSHARE_ATTACHMENT_POLLING_INTERVAL + 1);
 
-      expect(esnLinshareApiClient.getDocumentAsyncTaskById).to.have.been.calledOnce;
+      expect(linshareApiClient.getDocumentAsyncTaskById).to.have.been.calledOnce;
     });
   });
 });
