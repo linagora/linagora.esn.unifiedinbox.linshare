@@ -156,7 +156,7 @@ describe('The inboxLinshareAttachmentProvider service', function() {
   });
 
   describe('The fileToAttachment fn', function() {
-    it('should return the Linshare virtual attachment', function() {
+    it('should return the LinShare virtual attachment', function() {
       var file = { name: 'Learn_JS_in_6_hours.pdf', size: 12345 };
       var attachment = inboxLinshareAttachmentProvider.fileToAttachment(file);
 

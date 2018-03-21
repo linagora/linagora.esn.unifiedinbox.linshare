@@ -69,7 +69,7 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
     expect(element.find('span.label').text()).to.equal('Save');
   });
 
-  it('should show Saved label when attachment is saved to Linshare', function() {
+  it('should show Saved label when attachment is saved to LinShare', function() {
     inboxLinshareAttachmentSaveActionService.getAttachmentMapping.returns($q.when({
       documentId: '1234'
     }));
@@ -79,7 +79,7 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
     expect(element.find('span.label').text()).to.equal('Saved');
   });
 
-  it('should show Saving label and watch the mapping when attachment is being saved to Linshare', function() {
+  it('should show Saving label and watch the mapping when attachment is being saved to LinShare', function() {
     var mapping = { asyncTaskId: '123' };
 
     inboxLinshareAttachmentSaveActionService.getAttachmentMapping.returns($q.when(mapping));
@@ -118,7 +118,7 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
       inboxLinshareAttachmentSaveActionService.getAttachmentMapping.returns($q.when());
     });
 
-    it('should save attachment to Linshare mark label as Saving while waiting', function() {
+    it('should save attachment to LinShare mark label as Saving while waiting', function() {
       inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare.returns($q.defer().promise);
 
       var element = initComponent();
@@ -149,7 +149,7 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
       expect(element.find('span.label').text()).to.equal('Save');
     });
 
-    it('should show Saved label when attachment is saved to Linshare immediately', function() {
+    it('should show Saved label when attachment is saved to LinShare immediately', function() {
       var mapping = { documentId: '123' };
 
       inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare.returns($q.when(mapping));

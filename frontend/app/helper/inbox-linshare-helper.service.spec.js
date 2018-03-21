@@ -16,7 +16,7 @@ describe('The inboxLinshareHelper service', function() {
   }));
 
   describe('The documentToAttachment function', function() {
-    it('should convert Linshare document to legal Inbox attachment', function() {
+    it('should convert LinShare document to legal Inbox attachment', function() {
       var linshareDocument = {
         name: 'linshareDocument',
         size: 1000,

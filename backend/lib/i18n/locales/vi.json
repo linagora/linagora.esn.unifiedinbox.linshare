@@ -6,14 +6,14 @@
   "This email contains %s LinShare attachments.": "Thư này có chứa %s tệp đính kèm từ LinShare.",
   "Checking...": "Checking...",
   "This email contains a LinShare attachment.": "Thư này có chứa 1 tệp đính kèm từ LinShare.",
-  "Checking availability of this attachment on Linshare": "Đang kiểm tra sự sẵn có của tệp đính kèm này trên Linshare",
-  "This attachment is being saved to Linshare": "Tệp đính kèm này đang được lưu vào Linshare",
-  "This attachment is saved to Linshare": "Tệp đính kèm này đã được lưu vào Linshare",
+  "Checking availability of this attachment on LinShare": "Đang kiểm tra sự sẵn có của tệp đính kèm này trên LinShare",
+  "This attachment is being saved to LinShare": "Tệp đính kèm này đang được lưu vào LinShare",
+  "This attachment is saved to LinShare": "Tệp đính kèm này đã được lưu vào LinShare",
   "Save": "Lưu",
   "Saved": "Đã lưu",
   "Saving...": "Đang lưu...",
-  "Save this attachment to Linshare": "Lưu tệp đính kèm này vào Linshare",
-  "Saving attachment to Linshare...": "Đang lưu tệp đính kèm vào Linshare...",
-  "Saved attachment to Linshare": "Đã lưu tệp đính kèm vào Linshare",
-  "Failed to save attachment to Linshare": "Lưu tệp đính kèm vào Linshare thất bại"
+  "Save this attachment to LinShare": "Lưu tệp đính kèm này vào LinShare",
+  "Saving attachment to LinShare...": "Đang lưu tệp đính kèm vào LinShare...",
+  "Saved attachment to LinShare": "Đã lưu tệp đính kèm vào LinShare",
+  "Failed to save attachment to LinShare": "Lưu tệp đính kèm vào LinShare thất bại"
 }

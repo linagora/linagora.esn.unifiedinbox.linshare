@@ -44,7 +44,7 @@ describe('The inboxLinsharePresendingHook service', function() {
     });
   }));
 
-  it('should call the Linshare API with only linshare attachments', function() {
+  it('should call the LinShare API with only linshare attachments', function() {
     var email = {
       attachments: [linshareAttachment, jmapAttachment]
     };
@@ -62,7 +62,7 @@ describe('The inboxLinsharePresendingHook service', function() {
     });
   });
 
-  it('should not call the Linshare API if there is no Linshare attachment', function() {
+  it('should not call the LinShare API if there is no LinShare attachment', function() {
     var email = {
       attachments: [jmapAttachment]
     };
@@ -77,7 +77,7 @@ describe('The inboxLinsharePresendingHook service', function() {
     expect(esnLinshareApiClient.shareDocuments).not.to.have.been.called;
   });
 
-  it('should not call the Linshare API if there is no recipient', function() {
+  it('should not call the LinShare API if there is no recipient', function() {
     var email = {
       attachments: [linshareAttachment, jmapAttachment]
     };
@@ -90,7 +90,7 @@ describe('The inboxLinsharePresendingHook service', function() {
     expect(esnLinshareApiClient.shareDocuments).not.to.have.been.called;
   });
 
-  it('should not call the Linshare API with attachments that do not have uuid', function() {
+  it('should not call the LinShare API with attachments that do not have uuid', function() {
     var linshareAttachmentWithoutUuid = {
       name: 'attachmentWithoutUuid',
       attachmentType: 'linshare'
@@ -127,7 +127,7 @@ describe('The inboxLinsharePresendingHook service', function() {
     expect(email.attachments).to.deep.equal([jmapAttachment]);
   });
 
-  it('should append notify message if the email contains Linshare attachment', function() {
+  it('should append notify message if the email contains LinShare attachment', function() {
     var email = {
       attachments: [linshareAttachment, linshareAttachment],
       htmlBody: '<p>email content</p>',
@@ -169,7 +169,7 @@ describe('The inboxLinsharePresendingHook service', function() {
       INBOX_LINSHARE_EMAIL_ADDITIONAL_MESSAGE_TEMPLATES.singular);
   });
 
-  it('should not append notify message if the email does not contain Linshare attachment', function() {
+  it('should not append notify message if the email does not contain LinShare attachment', function() {
     var email = {
       attachments: [jmapAttachment],
       htmlBody: '<p>email content</p>',

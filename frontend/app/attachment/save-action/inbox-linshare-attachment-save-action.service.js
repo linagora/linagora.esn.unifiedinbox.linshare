@@ -38,7 +38,7 @@
         })
         .then(function(asyncTask) {
           if (asyncTask.status === esnLinshareApiClient.ASYNC_TASK_STATUS.FAILED) {
-            return $q.reject(new Error('Cannot save attachment to Linshare'));
+            return $q.reject(new Error('Cannot save attachment to LinShare'));
           }
 
           var attachmentMapping = {
@@ -86,7 +86,7 @@
             }
 
             if (asyncTask.status === esnLinshareApiClient.ASYNC_TASK_STATUS.FAILED) {
-              done(new Error('Failed to save attachment to Linshare'));
+              done(new Error('Failed to save attachment to LinShare'));
             }
           })
           .catch(done)
