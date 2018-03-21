@@ -29,9 +29,9 @@ function inboxLinshareAttachmentSaveActionController(
     self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saving;
 
     asyncAction({
-      progressing: 'Saving attachment to Linshare...',
-      success: 'Saved attachment to Linshare',
-      failure: 'Failed to save attachment to Linshare'
+      progressing: 'Saving attachment to LinShare...',
+      success: 'Saved attachment to LinShare',
+      failure: 'Failed to save attachment to LinShare'
     }, function() {
       return inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare(self.attachment).then(checkMapping);
     })

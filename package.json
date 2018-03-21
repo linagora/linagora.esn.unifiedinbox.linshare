@@ -1,7 +1,7 @@
 {
   "name": "linagora.esn.unifiedinbox.linshare",
   "version": "0.0.1",
-  "description": "Linshare plugin for OpenPaaS Unified Inbox module",
+  "description": "LinShare plugin for OpenPaaS Unified Inbox module",
   "main": "index.js",
   "devDependencies": {
     "@linagora/grunt-i18n-checker": "2.0.5",

@@ -62,7 +62,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
   });
 
   describe('The saveAttachmentToLinshare fn', function() {
-    it('should create Linshare document by download URL of the attachment', function() {
+    it('should create LinShare document by download URL of the attachment', function() {
       var downloadUrl = 'http://abc.com/download.pdf';
       var attachment = {
         name: 'my file.pdf',
@@ -95,7 +95,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       }));
 
       inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare(attachment).catch(function(err) {
-        expect(err.message).to.equal('Cannot save attachment to Linshare');
+        expect(err.message).to.equal('Cannot save attachment to LinShare');
         done();
       });
 
@@ -172,7 +172,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       esnLinshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when(asyncTask));
 
       inboxLinshareAttachmentSaveActionService.watch(attachmentMapping, scope).catch(function(err) {
-        expect(err.message).to.equal('Failed to save attachment to Linshare');
+        expect(err.message).to.equal('Failed to save attachment to LinShare');
         done();
       });
 

@@ -6,14 +6,14 @@
   "This email contains %s LinShare attachments.": "This email contains %s LinShare attachments.",
   "This email contains a LinShare attachment.": "This email contains a LinShare attachment.",
   "Checking...": "Checking...",
-  "Checking availability of this attachment on Linshare": "Checking availability of this attachment on Linshare",
-  "This attachment is being saved to Linshare": "This attachment is being saved to Linshare",
-  "This attachment is saved to Linshare": "This attachment is saved to Linshare",
+  "Checking availability of this attachment on LinShare": "Checking availability of this attachment on LinShare",
+  "This attachment is being saved to LinShare": "This attachment is being saved to LinShare",
+  "This attachment is saved to LinShare": "This attachment is saved to LinShare",
   "Save": "Save",
   "Saved": "Saved",
   "Saving...": "Saving...",
-  "Save this attachment to Linshare": "Save this attachment to Linshare",
-  "Saving attachment to Linshare...": "Saving attachment to Linshare...",
-  "Saved attachment to Linshare": "Saved attachment to Linshare",
-  "Failed to save attachment to Linshare": "Failed to save attachment to Linshare"
+  "Save this attachment to LinShare": "Save this attachment to LinShare",
+  "Saving attachment to LinShare...": "Saving attachment to LinShare...",
+  "Saved attachment to LinShare": "Saved attachment to LinShare",
+  "Failed to save attachment to LinShare": "Failed to save attachment to LinShare"
 }

@@ -34,7 +34,7 @@ describe('The inboxLinshareComposerSelectAttachment component', function() {
     return element;
   }
 
-  it('should open Linshare files browser when user click on Linshare button', function() {
+  it('should open LinShare files browser when user click on LinShare button', function() {
     var scope = $rootScope.$new();
     var email = {
       attachments: [{
@@ -53,7 +53,7 @@ describe('The inboxLinshareComposerSelectAttachment component', function() {
     expect($modal).to.have.been.called;
   });
 
-  it('should update number of linshare attachment and display it on Linshare button', function() {
+  it('should update number of linshare attachment and display it on LinShare button', function() {
     var scope = $rootScope.$new();
     var attachment1 = {
       attachmentType: 'linshare',
@@ -81,7 +81,7 @@ describe('The inboxLinshareComposerSelectAttachment component', function() {
     expect(element.find('.composer-badge').text()).to.equal('2');
   });
 
-  it('should not display number of Linshare attachment if there is no Linshare attachment', function() {
+  it('should not display number of LinShare attachment if there is no LinShare attachment', function() {
     var scope = $rootScope.$new();
 
     scope.email = {
@@ -92,7 +92,7 @@ describe('The inboxLinshareComposerSelectAttachment component', function() {
     expect(element.find('.composer-badge').hasClass('ng-hide')).to.be.true;
   });
 
-  it('should flash when an Linshare attachment is uploading', function() {
+  it('should flash when an LinShare attachment is uploading', function() {
     var scope = $rootScope.$new();
 
     scope.email = {
@@ -114,7 +114,7 @@ describe('The inboxLinshareComposerSelectAttachment component', function() {
     expect(element.find('.linshare-uploading').length).to.equal(0);
   });
 
-  it('should notify user when upload Linshare attachment unsuccessfully', function() {
+  it('should notify user when upload LinShare attachment unsuccessfully', function() {
     var scope = $rootScope.$new();
 
     scope.email = {

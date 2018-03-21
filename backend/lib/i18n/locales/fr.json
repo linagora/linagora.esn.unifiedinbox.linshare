@@ -6,14 +6,14 @@
   "This email contains %s LinShare attachments.": "Cet email contient %s pièces jointes stockées dans LinShare.",
   "This email contains a LinShare attachment.": "Cet email contient une pièce jointe stockée dans LinShare.",
   "Checking...": "Vérification...",
-  "Checking availability of this attachment on Linshare": "Vérification de la disponibilité de cette pièce jointe sur Linshare",
-  "This attachment is being saved to Linshare": "Cette pièce jointe est en train d'être sauvegardée sur Linshare",
-  "This attachment is saved to Linshare": "Cette pièce jointe est sauvegardée sur Linshare",
+  "Checking availability of this attachment on LinShare": "Vérification de la disponibilité de cette pièce jointe sur LinShare",
+  "This attachment is being saved to LinShare": "Cette pièce jointe est en train d'être sauvegardée sur LinShare",
+  "This attachment is saved to LinShare": "Cette pièce jointe est sauvegardée sur LinShare",
   "Save": "Sauvagarder",
   "Saved": "Sauvegardé",
   "Saving...": "Sauvegarde en cours...",
-  "Save this attachment to Linshare": "Sauvegarder cette pièce jointe sur Linshare",
-  "Saving attachment to Linshare...": "Sauvegarde de la pièce jointe sur Linshare en cours...",
-  "Saved attachment to Linshare": "Pièce jointe sauvegardée sur Linshare",
-  "Failed to save attachment to Linshare": "Échec lors de la sauvegarde de la pièce jointe sur Linshare"
+  "Save this attachment to LinShare": "Sauvegarder cette pièce jointe sur LinShare",
+  "Saving attachment to LinShare...": "Sauvegarde de la pièce jointe sur LinShare en cours...",
+  "Saved attachment to LinShare": "Pièce jointe sauvegardée sur LinShare",
+  "Failed to save attachment to LinShare": "Échec lors de la sauvegarde de la pièce jointe sur LinShare"
 }
