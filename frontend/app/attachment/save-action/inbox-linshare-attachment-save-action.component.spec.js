@@ -115,6 +115,7 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
     var mapping = { asyncTaskId: '123', documentId: '456' };
     var expectUrl = configMock + '#/files/list?fileUuid=' + mapping.documentId;
 
+    linshareApiClient.getDocument.returns($q.when({ documentId: '456' }));
     inboxLinshareAttachmentSaveActionService.getAttachmentMapping.returns($q.when(mapping));
     inboxLinshareAttachmentSaveActionService.watch.returns($q.when());
 

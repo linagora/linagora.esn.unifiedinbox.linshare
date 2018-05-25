@@ -14,7 +14,7 @@ module.exports = function(dependencies, lib, router) {
     authorizationMW.requiresAPILogin,
     helperMW.requireBody,
     middleware.validateAttachmentCreation,
-    middleware.noDuplicateBlobIdPerUser,
+    middleware.loadAttachmentIfExist,
     controller.createAttachment);
 
   router.post('/attachments/:attachmentId',

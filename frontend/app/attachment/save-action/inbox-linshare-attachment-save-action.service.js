@@ -47,7 +47,7 @@
           };
 
           if (asyncTask.status === linshareApiClient.ASYNC_TASK_STATUS.SUCCESS) {
-            attachmentMapping.documentId = asyncTask.uuid;
+            attachmentMapping.documentId = asyncTask.resourceUuid;
           }
 
           return inboxLinshareApiClient.createAttachment(attachmentMapping);

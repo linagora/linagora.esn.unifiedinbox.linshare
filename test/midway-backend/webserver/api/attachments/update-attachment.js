@@ -72,9 +72,11 @@ describe('The update attachment API: POST api/attachments/:attachmentId', () => 
   it('should respond 200 with the updated attachment on success', function(done) {
     const attachment = {
       userId: user.id,
-      blobId: '1'
+      blobId: '1',
+      asyncTaskId: '10jq'
     };
     const newDocumentId = '12345';
+    const newAsyncTaskId = 'jqka';
 
     lib.attachment.create(attachment)
       .then(createdAttachment => {
@@ -82,13 +84,14 @@ describe('The update attachment API: POST api/attachments/:attachmentId', () => 
           expect(err).to.not.exist;
 
           loggedInAsUser(request(app).post(`/api/attachments/${createdAttachment.id}`))
-            .send({ documentId: newDocumentId })
+            .send({ documentId: newDocumentId, asyncTaskId: newAsyncTaskId })
             .expect(200)
             .end((err, res) => {
               expect(err).to.not.exist;
               expect(res.body).to.shallowDeepEqual({
                 id: createdAttachment.id,
-                documentId: newDocumentId
+                documentId: newDocumentId,
+                asyncTaskId: newAsyncTaskId
               });
               done();
           });

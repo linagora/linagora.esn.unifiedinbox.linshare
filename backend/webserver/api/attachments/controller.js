@@ -8,6 +8,15 @@ module.exports = function(dependencies, lib) {
   };
 
   function createAttachment(req, res) {
+    // In case of recreate file that's already removed from Linshare
+    if (req.attachment) {
+      if (!req.body.documentId) { // Delete the old document id of mapping object
+        req.body.documentId = null;
+      }
+
+      return updateAttachment(req, res);
+    }
+
     const { blobId, asyncTaskId, documentId } = req.body;
 
     lib.attachment.create({
@@ -62,12 +71,17 @@ module.exports = function(dependencies, lib) {
 
   function updateAttachment(req, res) {
     var updateFields = {};
+    var attachmentId = req.params.attachmentId || req.attachment._id;
 
-    if (req.body.documentId) {
+    if (typeof req.body.documentId !== 'undefined') {
       updateFields.documentId = req.body.documentId;
     }
 
-    lib.attachment.updateById(req.params.attachmentId, updateFields)
+    if (req.body.asyncTaskId) {
+      updateFields.asyncTaskId = req.body.asyncTaskId;
+    }
+
+    lib.attachment.updateById(attachmentId, updateFields)
       .then(attachment => res.status(200).json(lib.attachment.denormalize(attachment)))
       .catch(err => {
         const details = 'Error while updating attachment';
