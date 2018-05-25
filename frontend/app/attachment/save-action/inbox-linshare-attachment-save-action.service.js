@@ -78,7 +78,7 @@
           .then(function(asyncTask) {
             if (asyncTask.status === linshareApiClient.ASYNC_TASK_STATUS.SUCCESS) {
               return inboxLinshareApiClient.updateAttachment(attachmentMapping.id, {
-                  documentId: asyncTask.uuid
+                  documentId: asyncTask.resourceUuid
                 })
                 .then(function() {
                   done();
