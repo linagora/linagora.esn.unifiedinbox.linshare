@@ -182,6 +182,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
     it('should update attachment mapping when async task is marked as SUCCESS', function() {
       var asyncTask = {
         uuid: '456',
+        resourceUuid: 'jqka',
         status: linshareApiClient.ASYNC_TASK_STATUS.SUCCESS
       };
       var attachmentMapping = {
@@ -197,7 +198,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       $interval.flush(INBOX_LINSHARE_ATTACHMENT_POLLING_INTERVAL + 1);
 
       expect(inboxLinshareApiClient.updateAttachment).to.have.been.calledWith(attachmentMapping.id, {
-        documentId: asyncTask.uuid
+        documentId: asyncTask.resourceUuid
       });
     });
 
