@@ -52,3 +52,7 @@ angular.module('esn.async-action', [])
       return action();
     };
   });
+angular.module('esn.configuration', [])
+  .factory('esnConfig', function() {
+    return {};
+  });
