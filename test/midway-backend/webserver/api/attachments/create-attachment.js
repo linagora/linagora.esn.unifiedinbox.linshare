@@ -69,36 +69,6 @@ describe('The create attachment API: POST api/attachments', () => {
     });
   });
 
-  it('should respond 409 when blobId is duplicated', function(done) {
-    const attachment = {
-      userId: user.id,
-      blobId: '12345'
-    };
-
-    lib.attachment.create(attachment)
-      .then(() => {
-        this.helpers.api.loginAsUser(app, user.emails[0], password, (err, loggedInAsUser) => {
-          expect(err).to.not.exist;
-
-          loggedInAsUser(request(app).post('/api/attachments'))
-            .send({ blobId: attachment.blobId })
-            .expect(409)
-            .end((err, res) => {
-              expect(err).to.not.exist;
-              expect(res.body).to.deep.equal({
-                error: {
-                  code: 409,
-                  details: 'Attachment with this blobId is already created: 12345',
-                  message: 'Conflict'
-                }
-              });
-              done();
-          });
-        });
-      })
-      .catch(err => done(err || 'should resolve'));
-  });
-
   it('should create attachment then respond 201 the created attachment', function(done) {
     const attachment = {
       blobId: '12345',
@@ -119,4 +89,76 @@ describe('The create attachment API: POST api/attachments', () => {
         });
     });
   });
+
+  it('should update attachment then respond 200 with the updated attachment if the attachment is already exist', function(done) {
+    const attachment = {
+      userId: user.id,
+      blobId: 'blobId',
+      asyncTaskId: 'asyncTaskId',
+      documentId: 'documentId'
+    };
+
+    lib.attachment.create(attachment)
+      .then(createdAttachment => {
+        this.helpers.api.loginAsUser(app, user.emails[0], password, (err, loggedInAsUser) => {
+          expect(err).to.not.exist;
+
+          loggedInAsUser(request(app).post('/api/attachments'))
+            .send({
+              userId: user.id,
+              blobId: 'blobId',
+              asyncTaskId: 'newAsyncTaskId'
+            })
+            .expect(200)
+            .end((err, res) => {
+              expect(err).to.not.exist;
+              expect(res.body).to.shallowDeepEqual({
+                id: createdAttachment.id,
+                userId: user.id,
+                blobId: 'blobId',
+                documentId: null,
+                asyncTaskId: 'newAsyncTaskId'
+              });
+              done();
+            });
+        });
+      });
+  });
+
+  it('should update attachment with new documentId and asyncTaskId then respond 200 with the updated attachment if the attachment is already exist', function(done) {
+    const attachment = {
+      userId: user.id,
+      blobId: '765',
+      asyncTaskId: 'asyncTaskId',
+      documentId: 'documentId'
+    };
+
+    lib.attachment.create(attachment)
+      .then(createdAttachment => {
+        this.helpers.api.loginAsUser(app, user.emails[0], password, (err, loggedInAsUser) => {
+          expect(err).to.not.exist;
+
+          loggedInAsUser(request(app).post('/api/attachments'))
+            .send({
+              userId: user.id,
+              blobId: '765',
+              asyncTaskId: 'newAsyncTaskId',
+              documentId: 'newDocumentId'
+            })
+            .expect(200)
+            .end((err, res) => {
+              expect(err).to.not.exist;
+              expect(res.body).to.shallowDeepEqual({
+                id: createdAttachment.id,
+                userId: user.id,
+                blobId: '765',
+                documentId: 'newDocumentId',
+                asyncTaskId: 'newAsyncTaskId'
+              });
+              done();
+            });
+        });
+      });
+  });
 });
+

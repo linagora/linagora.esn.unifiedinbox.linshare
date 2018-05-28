@@ -3,8 +3,8 @@ module.exports = function(dependencies, lib) {
 
   return {
     load,
-    noDuplicateBlobIdPerUser,
-    validateAttachmentCreation
+    validateAttachmentCreation,
+    loadAttachmentIfExist
   };
 
   function load(req, res, next) {
@@ -52,24 +52,18 @@ module.exports = function(dependencies, lib) {
     next();
   }
 
-  function noDuplicateBlobIdPerUser(req, res, next) {
+  function loadAttachmentIfExist(req, res, next) {
     lib.attachment.list({
       userId: req.user.id,
       blobId: req.body.blobId
     }).then(attachments => {
       if (attachments.length) {
-        res.status(409).json({
-          error: {
-            code: 409,
-            message: 'Conflict',
-            details: `Attachment with this blobId is already created: ${req.body.blobId}`
-          }
-        });
-      } else {
-        next();
+        req.attachment = attachments[0];
       }
+
+      next();
     }, err => {
-      const details = 'Error while checking blobId of attachment';
+      const details = 'Error while loading attachment';
 
       logger.error(details, err);
 

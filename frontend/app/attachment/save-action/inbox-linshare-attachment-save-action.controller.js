@@ -8,6 +8,7 @@ function inboxLinshareAttachmentSaveActionController(
   $scope,
   asyncAction,
   esnConfig,
+  linshareApiClient,
   inboxLinshareAttachmentSaveActionService,
   INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS
 ) {
@@ -45,7 +46,12 @@ function inboxLinshareAttachmentSaveActionController(
     if (!attachmentMapping) {
       self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.not_saved;
     } else if (attachmentMapping.documentId) {
-      return _onAttachmentSaved(attachmentMapping.documentId);
+      linshareApiClient.getDocument(attachmentMapping.documentId)
+        .then(function() {
+          _onAttachmentSaved(attachmentMapping.documentId);
+        }, function() {
+          self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.not_saved;
+        });
     } else {
       self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saving;
 

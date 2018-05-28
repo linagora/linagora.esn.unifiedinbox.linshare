@@ -7,7 +7,7 @@ var expect = chai.expect;
 
 describe('The inboxLinshareAttachmentSaveAction component', function() {
   var $rootScope, $compile, $q;
-  var inboxLinshareAttachmentSaveActionService;
+  var inboxLinshareAttachmentSaveActionService, linshareApiClient;
   var scope, attachmentMock, configMock;
 
   beforeEach(function() {
@@ -26,16 +26,19 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
       _$compile_,
       _$rootScope_,
       _$q_,
+      _linshareApiClient_,
       _inboxLinshareAttachmentSaveActionService_
     ) {
       $rootScope = _$rootScope_;
       $compile = _$compile_;
       $q = _$q_;
       inboxLinshareAttachmentSaveActionService = _inboxLinshareAttachmentSaveActionService_;
+      linshareApiClient = _linshareApiClient_;
 
       inboxLinshareAttachmentSaveActionService.getAttachmentMapping = sinon.stub();
       inboxLinshareAttachmentSaveActionService.watch = sinon.stub();
       inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare = sinon.stub();
+      linshareApiClient.getDocument = sinon.stub();
     });
 
     attachmentMock = {};
@@ -69,6 +72,15 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
     expect(element.find('span.label').text()).to.equal('Save');
   });
 
+  it('should show Save label if the attachment saved once but then removed from Linshare', function() {
+    linshareApiClient.getDocument.returns($q.reject());
+    inboxLinshareAttachmentSaveActionService.getAttachmentMapping.returns($q.when({ documentId: '123' }));
+
+    var element = initComponent();
+
+    expect(element.find('span.label').text()).to.equal('Save');
+  });
+
   it('should show Save label when it fails to get mapping', function() {
     inboxLinshareAttachmentSaveActionService.getAttachmentMapping.returns($q.reject());
 
@@ -78,6 +90,7 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
   });
 
   it('should show Saved label when attachment is saved to LinShare', function() {
+    linshareApiClient.getDocument.returns($q.when({ documentId: '1234' }));
     inboxLinshareAttachmentSaveActionService.getAttachmentMapping.returns($q.when({
       documentId: '1234'
     }));
@@ -115,6 +128,7 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
     var mapping = { asyncTaskId: '123', documentId: '456' };
     var expectUrl = configMock + '#/files/list?fileUuid=' + mapping.documentId;
 
+    linshareApiClient.getDocument.returns($q.when({ documentId: '456' }));
     inboxLinshareAttachmentSaveActionService.getAttachmentMapping.returns($q.when(mapping));
     inboxLinshareAttachmentSaveActionService.watch.returns($q.when());
 
@@ -175,6 +189,7 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
     it('should show Saved label when attachment is saved to LinShare immediately', function() {
       var mapping = { documentId: '123' };
 
+      linshareApiClient.getDocument.returns($q.when({ documentId: '123' }));
       inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare.returns($q.when(mapping));
 
       var element = initComponent();

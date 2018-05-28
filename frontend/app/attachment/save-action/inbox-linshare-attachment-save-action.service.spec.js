@@ -134,7 +134,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       var asyncTask = {
         uuid: '468',
         status: linshareApiClient.ASYNC_TASK_STATUS.SUCCESS,
-        async: { uuid: '123' }
+        async: { uuid: '123', resourceUuid: '456' }
       };
 
       linshareApiClient.createDocumentFromUrl = sinon.stub().returns($q.when(asyncTask));
@@ -144,7 +144,7 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
       $rootScope.$digest();
 
       expect(inboxLinshareApiClient.createAttachment).to.have.been.calledWith({
-        documentId: asyncTask.uuid,
+        documentId: asyncTask.resourceUuid,
         blobId: attachment.blobId,
         asyncTaskId: asyncTask.async.uuid
       });
