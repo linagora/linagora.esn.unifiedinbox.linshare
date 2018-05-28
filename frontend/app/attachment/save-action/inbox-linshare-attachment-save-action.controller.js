@@ -45,22 +45,24 @@ function inboxLinshareAttachmentSaveActionController(
     if (!attachmentMapping) {
       self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.not_saved;
     } else if (attachmentMapping.documentId) {
-      self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saved;
-
-      return _buildAttachmentUrl(attachmentMapping.documentId)
-        .then(function(url) {
-          self.attachment.url = url;
-        });
+      return _onAttachmentSaved(attachmentMapping.documentId);
     } else {
       self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saving;
 
-      return inboxLinshareAttachmentSaveActionService.watch(attachmentMapping, $scope).then(function() {
-        self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saved;
-      });
+      return inboxLinshareAttachmentSaveActionService.watch(attachmentMapping, $scope).then(_onAttachmentSaved);
     }
   }
 
-  function _buildAttachmentUrl(attachmentId) {
+  function _onAttachmentSaved(documentId) {
+    self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saved;
+
+    return _buildAttachmentLinshareUrl(documentId)
+      .then(function(linshareUrl) {
+        self.attachment.linshareUrl = linshareUrl;
+      });
+  }
+
+  function _buildAttachmentLinshareUrl(attachmentId) {
     return esnConfig('linagora.esn.linshare.instanceURL')
       .then(function(linshareInstanceURL) {
         return linshareInstanceURL + '#/files/list?fileUuid=' + attachmentId;

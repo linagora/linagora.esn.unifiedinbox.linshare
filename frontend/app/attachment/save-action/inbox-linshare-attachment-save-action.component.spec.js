@@ -211,6 +211,26 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
       expect(element.find('span.label').text()).to.equal('Saved');
     });
 
+    it('should show Saved button with the link to open file in LinShare when mapping watcher is resolved', function() {
+      configMock = 'http://linshare.org';
+      var documentId = '456';
+      var mapping = { asyncTaskId: '123' };
+      var expectUrl = configMock + '#/files/list?fileUuid=' + documentId;
+
+      inboxLinshareAttachmentSaveActionService.saveAttachmentToLinshare.returns($q.when(mapping));
+      inboxLinshareAttachmentSaveActionService.watch = function() {
+        return $q.when(documentId);
+      };
+
+      var element = initComponent();
+
+      element.find('a').click();
+
+      expect(element.find('a').attr('target')).to.equal('_blank');
+      expect(element.find('a').attr('href')).to.equal(expectUrl);
+      expect(element.find('span.label').text()).to.equal('Saved');
+    });
+
     it('should show Save label and when watcher is reject', function() {
       var mapping = { asyncTaskId: '123' };
 
