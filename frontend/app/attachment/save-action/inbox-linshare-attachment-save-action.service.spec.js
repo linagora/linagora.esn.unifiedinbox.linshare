@@ -252,5 +252,33 @@ describe('The inboxLinshareAttachmentSaveActionService service', function() {
 
       expect(linshareApiClient.getDocumentAsyncTaskById).to.have.been.calledOnce;
     });
+
+    it('should resolve with the documentId when async task is marked as SUCCESS and success to update attachment mapping', function(done) {
+      var asyncTask = {
+        uuid: '456',
+        resourceUuid: 'jqka',
+        status: linshareApiClient.ASYNC_TASK_STATUS.SUCCESS
+      };
+      var attachmentMapping = {
+        id: '789',
+        asyncTaskId: '123'
+      };
+      var scope = $rootScope.$new();
+
+      linshareApiClient.getDocumentAsyncTaskById = sinon.stub().returns($q.when(asyncTask));
+      inboxLinshareApiClient.updateAttachment = sinon.stub().returns($q.when());
+
+      inboxLinshareAttachmentSaveActionService.watch(attachmentMapping, scope)
+        .then(function(documentId) {
+          expect(linshareApiClient.getDocumentAsyncTaskById).to.have.been.calledOnce;
+          expect(inboxLinshareApiClient.updateAttachment).to.have.been.calledWith(attachmentMapping.id, {
+            documentId: asyncTask.resourceUuid
+          });
+          expect(documentId).to.equal(asyncTask.resourceUuid);
+          done();
+        });
+
+      $interval.flush(INBOX_LINSHARE_ATTACHMENT_POLLING_INTERVAL + 1);
+    });
   });
 });

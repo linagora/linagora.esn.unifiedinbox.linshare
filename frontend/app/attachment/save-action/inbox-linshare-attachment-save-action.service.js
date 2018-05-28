@@ -81,7 +81,7 @@
                   documentId: asyncTask.resourceUuid
                 })
                 .then(function() {
-                  done();
+                  done(null, asyncTask.resourceUuid);
                 });
             }
 
@@ -95,13 +95,13 @@
           });
       }
 
-      function done(err) {
+      function done(err, documentId) {
         $interval.cancel(poller);
 
         if (err) {
           deferred.reject(err);
         } else {
-          deferred.resolve();
+          deferred.resolve(documentId);
         }
       }
     }
