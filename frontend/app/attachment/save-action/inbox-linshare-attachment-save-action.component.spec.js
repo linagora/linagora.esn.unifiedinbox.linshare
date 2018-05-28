@@ -8,7 +8,15 @@ var expect = chai.expect;
 describe('The inboxLinshareAttachmentSaveAction component', function() {
   var $rootScope, $compile, $q;
   var inboxLinshareAttachmentSaveActionService;
-  var scope, attachmentMock;
+  var scope, attachmentMock, configMock;
+
+  beforeEach(function() {
+    module('esn.configuration', function($provide) {
+      $provide.constant('esnConfig', function() {
+        return $q.when(configMock);
+      });
+    });
+  });
 
   beforeEach(function() {
     module('jadeTemplates');
@@ -99,6 +107,21 @@ describe('The inboxLinshareAttachmentSaveAction component', function() {
 
     var element = initComponent();
 
+    expect(element.find('span.label').text()).to.equal('Saved');
+  });
+
+  it('should show Saved button with the link to open file in LinShare when mapping watcher is resolved', function() {
+    configMock = 'http://linshare.org';
+    var mapping = { asyncTaskId: '123', documentId: '456' };
+    var expectUrl = configMock + '#/files/list?fileUuid=' + mapping.documentId;
+
+    inboxLinshareAttachmentSaveActionService.getAttachmentMapping.returns($q.when(mapping));
+    inboxLinshareAttachmentSaveActionService.watch.returns($q.when());
+
+    var element = initComponent();
+
+    expect(element.find('a').attr('target')).to.equal('_blank');
+    expect(element.find('a').attr('href')).to.equal(expectUrl);
     expect(element.find('span.label').text()).to.equal('Saved');
   });
 

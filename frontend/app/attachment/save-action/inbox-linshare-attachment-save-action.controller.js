@@ -7,6 +7,7 @@ angular.module('linagora.esn.unifiedinbox.linshare')
 function inboxLinshareAttachmentSaveActionController(
   $scope,
   asyncAction,
+  esnConfig,
   inboxLinshareAttachmentSaveActionService,
   INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS
 ) {
@@ -45,6 +46,11 @@ function inboxLinshareAttachmentSaveActionController(
       self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.not_saved;
     } else if (attachmentMapping.documentId) {
       self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saved;
+
+      return _buildAttachmentUrl(attachmentMapping.documentId)
+        .then(function(url) {
+          self.attachment.url = url;
+        });
     } else {
       self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saving;
 
@@ -52,6 +58,16 @@ function inboxLinshareAttachmentSaveActionController(
         self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saved;
       });
     }
+  }
+
+  function _buildAttachmentUrl(attachmentId) {
+    return esnConfig('linagora.esn.linshare.instanceURL')
+      .then(function(linshareInstanceURL) {
+        return linshareInstanceURL + '#/files/list?fileUuid=' + attachmentId;
+      })
+      .catch(function() {
+        return;
+      });
   }
 }
 })(angular);

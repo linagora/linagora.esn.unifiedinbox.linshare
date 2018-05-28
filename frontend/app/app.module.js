@@ -10,6 +10,7 @@
     'esn.file',
     'esn.i18n',
     'esn.lodash-wrapper',
+    'esn.configuration',
     'linagora.esn.unifiedinbox',
     'linagora.esn.linshare'
   ]);
