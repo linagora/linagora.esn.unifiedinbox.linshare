@@ -7,7 +7,7 @@
     i.mdi.mdi-cloud-sync
     span.label #{__('Saving...')}
 
-  a(ng-switch-when="saved", target="_blank", ng-href="{{::$ctrl.attachment.linshareUrl}}", title=__('Click to open this attachment in LinShare'))
+  a(ng-switch-when="saved", target="_blank", ng-href="{{::$ctrl.attachmentUrl}}", title=__('Click to open this attachment in LinShare'))
     i.mdi.mdi-cloud-check
     span.label #{__('Saved')}
 
