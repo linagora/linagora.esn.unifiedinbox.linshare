@@ -63,8 +63,8 @@ function inboxLinshareAttachmentSaveActionController(
     self.status = INBOX_LINSHARE_ATTACHMENT_MAPPING_STATUS.saved;
 
     return _buildAttachmentLinshareUrl(documentId)
-      .then(function(linshareUrl) {
-        self.attachment.linshareUrl = linshareUrl;
+      .then(function(attachmentUrl) {
+        self.attachmentUrl = attachmentUrl;
       });
   }
 
