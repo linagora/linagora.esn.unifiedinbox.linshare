@@ -1,4 +1,4 @@
-button.btn.btn-default.btn-link.btn-icon(type="button", ng-click='$ctrl.openLinshareFilesBrowser()')
+button.btn.btn-default.btn-link.btn-icon(type="button", ng-click='$ctrl.openLinshareFilesBrowser()', title=__('Browse my files in LinShare'))
   .badge-container
     .badge.composer-badge(ng-class='{ "error": $ctrl.linshareAttachmentsStatus.error }', ng-hide='$ctrl.linshareAttachmentsStatus.number === 0') {{ $ctrl.linshareAttachmentsStatus.number | maxPlus:99 }}
     i.linshare-icon(ng-class='{ "linshare-uploading": $ctrl.linshareAttachmentsStatus.uploading, "linshare-mobile-icon": $ctrl.isMobile, "linshare-desktop-icon": !$ctrl.isMobile }')
