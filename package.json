@@ -1,6 +1,6 @@
 {
   "name": "linagora.esn.unifiedinbox.linshare",
-  "version": "0.1.1-dev",
+  "version": "0.1.1",
   "description": "LinShare plugin for OpenPaaS Unified Inbox module",
   "main": "index.js",
   "devDependencies": {
