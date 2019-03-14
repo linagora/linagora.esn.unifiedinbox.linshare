@@ -168,4 +168,36 @@ describe('The inboxLinshareAttachmentProvider service', function() {
       expect(attachment.getFile()).to.deep.equal(file);
     });
   });
+
+  describe('The #removeAttachment function', function() {
+    it('should remove the corresponding attachment uuid in the list LinShareAttachmentUUIDs in email header', function() {
+      var attachment = {
+        uuid: 'uuid1'
+      };
+      var email = {
+        headers: {
+          LinShareAttachmentUUIDs: 'uuid1,uuid2'
+        }
+      };
+
+      inboxLinshareAttachmentProvider.removeAttachment(email, attachment);
+
+      expect(email.headers.LinShareAttachmentUUIDs).to.equal('uuid2');
+    });
+
+    it('should do nothing if the removed attachment uuid is not in the list LinShareAttachmentUUIDs in email header', function() {
+      var attachment = {
+        uuid: 'abc'
+      };
+      var email = {
+        headers: {
+          LinShareAttachmentUUIDs: 'uuid1,uuid2'
+        }
+      };
+
+      inboxLinshareAttachmentProvider.removeAttachment(email, attachment);
+
+      expect(email.headers.LinShareAttachmentUUIDs).to.equal('uuid1,uuid2');
+    });
+  });
 });

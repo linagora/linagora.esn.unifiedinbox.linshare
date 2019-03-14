@@ -10,7 +10,9 @@
     DEFAULT_FILE_TYPE
   ) {
     return {
-      documentToAttachment: documentToAttachment
+      documentToAttachment: documentToAttachment,
+      getLinShareAttachmentUUIDsFromEmailHeader: getLinShareAttachmentUUIDsFromEmailHeader,
+      setLinShareAttachmentUUIDsToEmailHeader: setLinShareAttachmentUUIDsToEmailHeader
     };
 
     function documentToAttachment(document) {
@@ -26,6 +28,15 @@
         uuid: document.uuid,
         status: 'uploaded'
       };
+    }
+
+    function getLinShareAttachmentUUIDsFromEmailHeader(email) {
+      return email.headers && email.headers.LinShareAttachmentUUIDs ? email.headers.LinShareAttachmentUUIDs.trim().split(',') : [];
+    }
+
+    function setLinShareAttachmentUUIDsToEmailHeader(email, uuids) {
+      email.headers = email.headers || {};
+      email.headers.LinShareAttachmentUUIDs = uuids.join(',');
     }
   }
 })(angular);
