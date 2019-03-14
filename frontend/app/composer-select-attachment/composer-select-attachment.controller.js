@@ -50,11 +50,19 @@
     }
 
     function insertLinshareDocuments(documents) {
+      var linShareAttachmentUUIDs = inboxLinshareHelper.getLinShareAttachmentUUIDsFromEmailHeader(self.email);
+
       documents.forEach(function(document) {
         var attachment = inboxLinshareHelper.documentToAttachment(document);
 
         self.email.attachments.push(attachment);
+
+        if (linShareAttachmentUUIDs.indexOf(attachment.uuid) === -1) {
+          linShareAttachmentUUIDs.push(attachment.uuid);
+        }
       });
+
+      inboxLinshareHelper.setLinShareAttachmentUUIDsToEmailHeader(self.email, linShareAttachmentUUIDs);
     }
   }
 })(angular);
