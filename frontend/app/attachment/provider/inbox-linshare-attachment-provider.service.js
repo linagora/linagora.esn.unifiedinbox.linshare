@@ -7,6 +7,7 @@
   function inboxLinshareAttachmentProvider(
     $q,
     fileUploadService,
+    inboxLinshareHelper,
     linshareFileUpload,
     DEFAULT_FILE_TYPE,
     INBOX_LINSHARE_ATTACHMENT_TYPE
@@ -16,7 +17,8 @@
       type: INBOX_LINSHARE_ATTACHMENT_TYPE,
       icon: 'linshare-icon linshare-desktop-icon',
       upload: upload,
-      fileToAttachment: fileToAttachment
+      fileToAttachment: fileToAttachment,
+      removeAttachment: removeAttachment
     };
 
     function upload(attachment) {
@@ -50,6 +52,17 @@
           return file;
         }
       };
+    }
+
+    function removeAttachment(email, attachment) {
+      var linShareAttachmentUUIDs = inboxLinshareHelper.getLinShareAttachmentUUIDsFromEmailHeader(email);
+      var removedAttachmentIndex = linShareAttachmentUUIDs.indexOf(attachment.uuid);
+
+      if (removedAttachmentIndex !== -1) {
+        linShareAttachmentUUIDs.splice(removedAttachmentIndex, 1);
+      }
+
+      inboxLinshareHelper.setLinShareAttachmentUUIDsToEmailHeader(email, linShareAttachmentUUIDs);
     }
   }
 })(angular);
