@@ -9,7 +9,9 @@
     inboxAttachmentProviderRegistry,
     inboxLinshareAttachmentProvider,
     inboxLinsharePresendingHook,
+    inboxLinsharePrecomposingHook,
     inboxEmailSendingHookService,
+    inboxEmailComposingHookService,
     dynamicDirectiveService
   ) {
     var ddDesktop = new dynamicDirectiveService.DynamicDirective(function() { return true; }, 'inbox-linshare-composer-select-attachment', {
@@ -23,6 +25,7 @@
     dynamicDirectiveService.addInjection('inboxMobileComposerExtraButtons', ddMobile);
     inboxAttachmentProviderRegistry.add(inboxLinshareAttachmentProvider);
     inboxEmailSendingHookService.registerPreSendingHook(inboxLinsharePresendingHook);
+    inboxEmailComposingHookService.registerPreComposingHook(inboxLinsharePrecomposingHook);
   }
 
   function injectAttachmentSaveAction(dynamicDirectiveService) {
