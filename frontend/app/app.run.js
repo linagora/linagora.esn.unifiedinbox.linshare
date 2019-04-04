@@ -12,20 +12,28 @@
     inboxLinsharePrecomposingHook,
     inboxEmailSendingHookService,
     inboxEmailComposingHookService,
-    dynamicDirectiveService
+    dynamicDirectiveService,
+    linshareConfigurationService
   ) {
-    var ddDesktop = new dynamicDirectiveService.DynamicDirective(function() { return true; }, 'inbox-linshare-composer-select-attachment', {
-      attributes: [{ name: 'email', value: '$ctrl.message' }]
-    });
-    var ddMobile = new dynamicDirectiveService.DynamicDirective(function() { return true; }, 'inbox-linshare-composer-select-attachment', {
-      attributes: [{ name: 'email', value: '$ctrl.message' }, { name: 'is-mobile', value: 'true' }]
-    });
+    linshareConfigurationService.isConfigured().then(function(isConfigured) {
+      if (!isConfigured) {
+        return;
+      }
 
-    dynamicDirectiveService.addInjection('inboxComposerExtraButtons', ddDesktop);
-    dynamicDirectiveService.addInjection('inboxMobileComposerExtraButtons', ddMobile);
-    inboxAttachmentProviderRegistry.add(inboxLinshareAttachmentProvider);
-    inboxEmailSendingHookService.registerPreSendingHook(inboxLinsharePresendingHook);
-    inboxEmailComposingHookService.registerPreComposingHook(inboxLinsharePrecomposingHook);
+      var ddDesktop = new dynamicDirectiveService.DynamicDirective(function() { return true; }, 'inbox-linshare-composer-select-attachment', {
+        attributes: [{ name: 'email', value: '$ctrl.message' }]
+      });
+
+      var ddMobile = new dynamicDirectiveService.DynamicDirective(function() { return true; }, 'inbox-linshare-composer-select-attachment', {
+        attributes: [{ name: 'email', value: '$ctrl.message' }, { name: 'is-mobile', value: 'true' }]
+      });
+
+      dynamicDirectiveService.addInjection('inboxComposerExtraButtons', ddDesktop);
+      dynamicDirectiveService.addInjection('inboxMobileComposerExtraButtons', ddMobile);
+      inboxAttachmentProviderRegistry.add(inboxLinshareAttachmentProvider);
+      inboxEmailSendingHookService.registerPreSendingHook(inboxLinsharePresendingHook);
+      inboxEmailComposingHookService.registerPreComposingHook(inboxLinsharePrecomposingHook);
+    });
   }
 
   function injectAttachmentSaveAction(dynamicDirectiveService) {
