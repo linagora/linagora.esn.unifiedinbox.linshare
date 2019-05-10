@@ -8,13 +8,16 @@
       }
 
       .lv-body {
-        overflow-y: scroll;
-        height: ~"calc(100% - 110px)";
-      }
+        height: ~"calc(100% - 70px)";
 
-      @media (min-width: @screen-md-min) {
-        .lv-body {
-          max-height: ~"calc(60vh - 110px)";
+        .browser-body {
+          overflow-y: auto;
+          height: ~"calc(100% - 81px)";
+
+          @media (min-width: @screen-md-min) {
+            overflow-y: scroll;
+            height: 30vh;
+          }
         }
       }
     }
