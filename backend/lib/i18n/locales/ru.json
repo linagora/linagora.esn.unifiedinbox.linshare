@@ -1,0 +1,20 @@
+{
+  "Insert files from LinShare": "Вставьте файлы из LinShare",
+  "Insert": "Вставить",
+  "Cancel": "Отменить",
+  "Close": "Закрыть",
+  "This email contains %s LinShare attachments.": "Это электронное письмо содержит вложения%s LinShare.",
+  "This email contains a LinShare attachment.": "Это письмо содержит вложение LinShare.",
+  "Checking...": "Проверка ...",
+  "Checking availability of this attachment on LinShare": "Проверка доступности этого вложения на LinShare",
+  "This attachment is being saved to LinShare": "Это вложение сохраняется в LinShare",
+  "Click to open this attachment in LinShare": "Нажмите, чтобы открыть вложение в LinShare",
+  "Save": "Сохранить",
+  "Saved": "Сохранено",
+  "Saving...": "Сохранение...",
+  "Browse my files in LinShare": "Просмотреть мои файлы в LinShare",
+  "Save this attachment to LinShare": "Сохранить это приложение в LinShare",
+  "Saving attachment to LinShare...": "Сохранение вложения в LinShare ...",
+  "Saved attachment to LinShare": "Сохраненное вложение в LinShare",
+  "Failed to save attachment to LinShare": "Не удалось сохранить вложение в LinShare"
+}
