@@ -4,57 +4,38 @@ const q = require('q');
 const request = require('supertest');
 const expect = require('chai').expect;
 const path = require('path');
-const MODULE_NAME = 'linagora.esn.unifiedinbox.linshare';
 
 describe('The list attachments API: GET api/attachments', () => {
   let app, deployOptions, user1, user2, lib;
   const password = 'secret';
 
   beforeEach(function(done) {
-    this.helpers.modules.initMidway(MODULE_NAME, err => {
+    app = this.helpers.modules.current.app;
+    deployOptions = {
+      fixtures: path.normalize(`${__dirname}/../../../fixtures/deployments`)
+    };
+
+    this.helpers.api.applyDomainDeployment('general', deployOptions, (err, models) => {
       if (err) {
         return done(err);
       }
-      expect(err).to.not.exist;
-      const application = require(this.testEnv.backendPath + '/webserver/application')(this.helpers.modules.current.deps);
-      const api = require(this.testEnv.backendPath + '/webserver/api')(this.helpers.modules.current.deps, this.helpers.modules.current.lib.lib);
+      user1 = models.users[0];
+      user2 = models.users[1];
+      lib = this.helpers.modules.current.lib.lib;
 
-      application.use(require('body-parser').json());
-      application.use('/api', api);
-
-      app = this.helpers.modules.getWebServer(application);
-      deployOptions = {
-        fixtures: path.normalize(`${__dirname}/../../../fixtures/deployments`)
-      };
-      this.helpers.api.applyDomainDeployment('general', deployOptions, (err, models) => {
-        if (err) {
-          return done(err);
-        }
-        user1 = models.users[0];
-        user2 = models.users[1];
-        lib = this.helpers.modules.current.lib.lib;
-
-        done();
-      });
-    });
-  });
-
-  afterEach(function(done) {
-    this.helpers.mongo.dropDatabase(err => {
-      if (err) return done(err);
-      this.testEnv.core.db.mongo.mongoose.connection.close(done);
+      done();
     });
   });
 
   it('should respond 401 if not logged in', function(done) {
-    this.helpers.api.requireLogin(app, 'get', '/api/attachments', done);
+    this.helpers.api.requireLogin(app, 'get', '/unifiedinboxlinshare/api/attachments', done);
   });
 
   it('should respond empty array when there is no attachments', function(done) {
     this.helpers.api.loginAsUser(app, user1.emails[0], password, (err, loggedInAsUser) => {
       expect(err).to.not.exist;
 
-      loggedInAsUser(request(app).get('/api/attachments'))
+      loggedInAsUser(request(app).get('/unifiedinboxlinshare/api/attachments'))
         .expect(200)
         .end((err, res) => {
           expect(err).to.not.exist;
@@ -82,7 +63,7 @@ describe('The list attachments API: GET api/attachments', () => {
         this.helpers.api.loginAsUser(app, user1.emails[0], password, (err, loggedInAsUser) => {
           expect(err).to.not.exist;
 
-          loggedInAsUser(request(app).get('/api/attachments'))
+          loggedInAsUser(request(app).get('/unifiedinboxlinshare/api/attachments'))
             .expect(200)
             .end((err, res) => {
               expect(err).to.not.exist;
@@ -113,7 +94,7 @@ describe('The list attachments API: GET api/attachments', () => {
           this.helpers.api.loginAsUser(app, user1.emails[0], password, (err, loggedInAsUser) => {
             expect(err).to.not.exist;
 
-            loggedInAsUser(request(app).get(`/api/attachments?blobId=${attachment2.blobId}`))
+            loggedInAsUser(request(app).get(`/unifiedinboxlinshare/api/attachments?blobId=${attachment2.blobId}`))
               .expect(200)
               .end((err, res) => {
                 expect(err).to.not.exist;
