@@ -53,3 +53,25 @@ before(function(done) {
 
   loader.load(MODULE_NAME, done);
 });
+
+before(function(done) {
+  this.helpers.modules.initMidway(MODULE_NAME, err => {
+    if (err) {
+      return done(err);
+    }
+
+    const expressApp = require(this.testEnv.backendPath + '/webserver/application')(this.helpers.modules.current.deps);
+    const api = require(this.testEnv.backendPath + '/webserver/api')(this.helpers.modules.current.deps, this.helpers.modules.current.lib.lib);
+
+    expressApp.use(require('body-parser').json());
+    expressApp.use('/unifiedinboxlinshare/api', api);
+
+    this.helpers.modules.current.app = this.helpers.modules.getWebServer(expressApp);
+
+    done();
+  });
+});
+
+afterEach(function(done) {
+  this.helpers.mongo.dropDatabase(err => done(err));
+});
