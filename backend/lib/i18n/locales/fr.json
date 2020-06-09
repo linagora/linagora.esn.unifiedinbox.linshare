@@ -16,5 +16,6 @@
   "Save this attachment to LinShare": "Sauvegarder cette pièce jointe sur LinShare",
   "Saving attachment to LinShare...": "Sauvegarde de la pièce jointe sur LinShare en cours...",
   "Saved attachment to LinShare": "Pièce jointe sauvegardée sur LinShare",
-  "Failed to save attachment to LinShare": "Échec lors de la sauvegarde de la pièce jointe sur LinShare"
+  "Failed to save attachment to LinShare": "Échec lors de la sauvegarde de la pièce jointe sur LinShare",
+  "Your attachment size reaches the LinShare limitation": "La taille de votre pièce jointe atteint la limite maximale définie par LinShare"
 }
