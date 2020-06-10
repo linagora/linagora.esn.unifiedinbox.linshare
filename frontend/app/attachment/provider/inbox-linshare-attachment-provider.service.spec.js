@@ -7,17 +7,24 @@ var expect = chai.expect;
 
 describe('The inboxLinshareAttachmentProvider service', function() {
   var $rootScope, $q;
-  var inboxLinshareAttachmentProvider;
+  var inboxLinshareAttachmentProvider, notificationFactory;
   var INBOX_LINSHARE_ATTACHMENT_TYPE;
 
-  beforeEach(module('linagora.esn.unifiedinbox.linshare'));
+  beforeEach(function() {
+    module('linagora.esn.unifiedinbox.linshare', function($provide) {
+      $provide.value('notificationFactory', {
+        weakError: sinon.spy()
+      });
+    });
 
-  beforeEach(inject(function(_$rootScope_, _$q_, _inboxLinshareAttachmentProvider_, _INBOX_LINSHARE_ATTACHMENT_TYPE_) {
-    $rootScope = _$rootScope_;
-    $q = _$q_;
-    inboxLinshareAttachmentProvider = _inboxLinshareAttachmentProvider_;
-    INBOX_LINSHARE_ATTACHMENT_TYPE = _INBOX_LINSHARE_ATTACHMENT_TYPE_;
-  }));
+    inject(function(_$rootScope_, _$q_, _inboxLinshareAttachmentProvider_, _notificationFactory_, _INBOX_LINSHARE_ATTACHMENT_TYPE_) {
+      $rootScope = _$rootScope_;
+      $q = _$q_;
+      inboxLinshareAttachmentProvider = _inboxLinshareAttachmentProvider_;
+      notificationFactory = _notificationFactory_;
+      INBOX_LINSHARE_ATTACHMENT_TYPE = _INBOX_LINSHARE_ATTACHMENT_TYPE_;
+    });
+  });
 
   describe('The upload fn', function() {
     var fileUploadService;
@@ -198,6 +205,19 @@ describe('The inboxLinshareAttachmentProvider service', function() {
       inboxLinshareAttachmentProvider.removeAttachment(email, attachment);
 
       expect(email.headers.LinShareAttachmentUUIDs).to.equal('uuid1,uuid2');
+    });
+  });
+
+  describe('The handleErrorOnUploading function', function() {
+    it('should call notification for warning to user', function() {
+      var error = {
+        status: 403,
+        data: { errCode: 46010 }
+      };
+
+      inboxLinshareAttachmentProvider.handleErrorOnUploading(error);
+
+      expect(notificationFactory.weakError).to.have.been.called;
     });
   });
 });

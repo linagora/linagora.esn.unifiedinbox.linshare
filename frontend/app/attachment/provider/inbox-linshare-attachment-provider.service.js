@@ -9,6 +9,7 @@
     fileUploadService,
     inboxLinshareHelper,
     linshareFileUpload,
+    notificationFactory,
     DEFAULT_FILE_TYPE,
     INBOX_LINSHARE_ATTACHMENT_TYPE
   ) {
@@ -18,7 +19,8 @@
       icon: 'linshare-icon linshare-desktop-icon',
       upload: upload,
       fileToAttachment: fileToAttachment,
-      removeAttachment: removeAttachment
+      removeAttachment: removeAttachment,
+      handleErrorOnUploading: handleErrorOnUploading
     };
 
     function upload(attachment) {
@@ -63,6 +65,17 @@
       }
 
       inboxLinshareHelper.setLinShareAttachmentUUIDsToEmailHeader(email, linShareAttachmentUUIDs);
+    }
+
+    function handleErrorOnUploading(error) {
+      var LinShareLimitationErrorCode = 46010;
+      var isReachedLinshareLimitation =
+        error.status === 403 && error.data &&
+        error.data.errCode === LinShareLimitationErrorCode;
+
+      if (isReachedLinshareLimitation) {
+        notificationFactory.weakError('Upload failed', 'Your attachment size reaches the Linshare limitation');
+      }
     }
   }
 })(angular);
