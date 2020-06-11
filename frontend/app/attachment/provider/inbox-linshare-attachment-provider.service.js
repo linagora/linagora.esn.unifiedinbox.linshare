@@ -5,8 +5,10 @@
     .factory('inboxLinshareAttachmentProvider', inboxLinshareAttachmentProvider);
 
   function inboxLinshareAttachmentProvider(
+    _,
     $q,
     fileUploadService,
+    inboxLinshareErrors,
     inboxLinshareHelper,
     linshareFileUpload,
     notificationFactory,
@@ -67,15 +69,10 @@
       inboxLinshareHelper.setLinShareAttachmentUUIDsToEmailHeader(email, linShareAttachmentUUIDs);
     }
 
-    function handleErrorOnUploading(error) {
-      var LinShareLimitationErrorCode = 46010;
-      var isReachedLinshareLimitation =
-        error.status === 403 && error.data &&
-        error.data.errCode === LinShareLimitationErrorCode;
+    function handleErrorOnUploading(e) {
+      var error = inboxLinshareErrors(e);
 
-      if (isReachedLinshareLimitation) {
-        notificationFactory.weakError('Upload failed', 'Your attachment size reaches the Linshare limitation');
-      }
+      return error && notificationFactory.weakError('Upload failed', error.message);
     }
   }
 })(angular);

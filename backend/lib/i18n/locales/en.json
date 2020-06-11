@@ -17,5 +17,6 @@
   "Saving attachment to LinShare...": "Saving attachment to LinShare...",
   "Saved attachment to LinShare": "Saved attachment to LinShare",
   "Failed to save attachment to LinShare": "Failed to save attachment to LinShare",
-  "Your attachment size reaches the LinShare limitation": "Your attachment size reaches the LinShare limitation"
+  "Your attachment size reaches the LinShare limitation": "Your attachment size reaches the LinShare limitation",
+  "Your LinShare account's quota has been reached": "Your LinShare account's quota has been reached"
 }

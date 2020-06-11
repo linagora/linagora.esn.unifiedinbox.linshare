@@ -17,5 +17,6 @@
   "Saving attachment to LinShare...": "Сохранение вложения в LinShare ...",
   "Saved attachment to LinShare": "Сохраненное вложение в LinShare",
   "Failed to save attachment to LinShare": "Не удалось сохранить вложение в LinShare",
-  "Your attachment size reaches the LinShare limitation": "Размер вашего вложения достигает ограничения LinShare"
+  "Your attachment size reaches the LinShare limitation": "Размер вашего вложения достигает ограничения LinShare",
+  "Your LinShare account's quota has been reached": "Ваша квота на счет LinShare достигнута"
 }
