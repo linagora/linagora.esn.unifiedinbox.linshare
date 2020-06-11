@@ -17,5 +17,6 @@
   "Saving attachment to LinShare...": "Đang lưu tệp đính kèm vào LinShare...",
   "Saved attachment to LinShare": "Đã lưu tệp đính kèm vào LinShare",
   "Failed to save attachment to LinShare": "Lưu tệp đính kèm vào LinShare thất bại",
-  "Your attachment size reaches the LinShare limitation": "Dung lượng tệp tin của bạn vượt quá giới hạn của LinShare"
+  "Your attachment size reaches the LinShare limitation": "Dung lượng tệp tin của bạn vượt quá giới hạn của LinShare",
+  "Your LinShare account's quota has been reached": "Tài khoản LinShare của bạn đã hết dung lượng lưu trữ"
 }

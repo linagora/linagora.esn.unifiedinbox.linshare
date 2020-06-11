@@ -209,10 +209,21 @@ describe('The inboxLinshareAttachmentProvider service', function() {
   });
 
   describe('The handleErrorOnUploading function', function() {
-    it('should call notification for warning to user', function() {
+    it('should call notification for warning to user if file size is reached LinShare max size', function() {
       var error = {
         status: 403,
         data: { errCode: 46010 }
+      };
+
+      inboxLinshareAttachmentProvider.handleErrorOnUploading(error);
+
+      expect(notificationFactory.weakError).to.have.been.called;
+    });
+
+    it('should call notification for warning to user if LinShare account quota is reached', function() {
+      var error = {
+        status: 403,
+        data: { errCode: 46011 }
       };
 
       inboxLinshareAttachmentProvider.handleErrorOnUploading(error);
